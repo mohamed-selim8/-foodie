@@ -276,27 +276,6 @@ function Cart(item, itemSt) {
   }
 }
 
-// total cost
-// function updateCartTotal() {
-//   let ttlCart = document.querySelector(".cart-total");
-
-//   let allItems = document.querySelectorAll(".item");
-//   // console.log(ttlCart);
-
-//   let total = 0;
-
-//   allItems.forEach((item) => {
-//     let itemPrice = item.querySelector(".item-total").innerHTML;
-
-//     // إزالة علامة $
-//     itemPrice = parseFloat(itemPrice.replace("$", ""));
-
-//     total += itemPrice;
-//   });
-
-//   ttlCart.innerHTML = `$ ${total.toFixed(2)}`;
-// }
-
 function updateCartTotal() {
   let ttlCart = document.querySelector(".cart-total");
 
@@ -314,26 +293,6 @@ function updateCartTotal() {
 
   ttlCart.innerHTML = `$ ${total.toFixed(2)}`;
 }
-
-// function Inc(btn) {
-//   let itemDiv = btn.closest(".item");
-//   let quantityVal = itemDiv.querySelector(".quantity-val");
-//   let itemTotal = itemDiv.querySelector(".item-total");
-//   let ttlCart = document.querySelector(".cart-total");
-//   let basePrice = Number(itemDiv.dataset.price);
-//   let currentQty = parseInt(quantityVal.innerHTML) + 1;
-
-//   quantityVal.innerHTML = currentQty;
-
-//   // total per item
-//   itemTotal.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
-
-//   // update total cost for cart
-
-//   updateCartTotal();
-
-//   console.log(ttlCart);
-// }
 
 function Inc(btn) {
   let itemDiv = btn.closest(".item");
@@ -355,45 +314,6 @@ function Inc(btn) {
 
   updateCartTotal();
 }
-// function Dec(btn, id) {
-//   let itemDiv = btn.closest(".item");
-//   let quantityVal = itemDiv.querySelector(".quantity-val");
-//   let itemTotal = itemDiv.querySelector(".item-total");
-
-//   let counter = document.querySelectorAll(".badge");
-
-//   let basePrice = Number(itemDiv.dataset.price);
-
-//   let currentQty = Number(quantityVal.innerHTML);
-
-//   // حذف العنصر
-//   if (currentQty <= 1) {
-//     cartProduct = cartProduct.filter((idd) => idd !== id);
-
-//     itemDiv.classList.add("smootie");
-
-//     setTimeout(() => {
-//       itemDiv.remove();
-
-//       updateCartTotal();
-
-//       counter.forEach((e) => {
-//         e.innerHTML = cartProduct.length;
-//       });
-//     }, 400);
-
-//     return;
-//   }
-
-//   currentQty--;
-
-//   quantityVal.innerHTML = currentQty;
-
-//   itemTotal.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
-
-//   // تحديث إجمالي السلة
-//   updateCartTotal();
-// }
 
 function Dec(btn, id) {
   let itemDiv = btn.closest(".item");
