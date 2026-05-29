@@ -270,90 +270,164 @@ function Cart(item, itemSt) {
       // for plus and minus operation
       itemDiv.dataset.price = items.cost; // السعر الأصلي ثابت
       itemDiv.dataset.id = items.id;
-
+      itemDiv.dataset.quantity = 1;
       cartList.appendChild(itemDiv);
     }
   }
 }
 
 // total cost
+// function updateCartTotal() {
+//   let ttlCart = document.querySelector(".cart-total");
+
+//   let allItems = document.querySelectorAll(".item");
+//   // console.log(ttlCart);
+
+//   let total = 0;
+
+//   allItems.forEach((item) => {
+//     let itemPrice = item.querySelector(".item-total").innerHTML;
+
+//     // إزالة علامة $
+//     itemPrice = parseFloat(itemPrice.replace("$", ""));
+
+//     total += itemPrice;
+//   });
+
+//   ttlCart.innerHTML = `$ ${total.toFixed(2)}`;
+// }
+
 function updateCartTotal() {
   let ttlCart = document.querySelector(".cart-total");
 
   let allItems = document.querySelectorAll(".item");
-  // console.log(ttlCart);
 
   let total = 0;
 
   allItems.forEach((item) => {
-    let itemPrice = item.querySelector(".item-total").innerHTML;
+    let basePrice = Number(item.dataset.price);
 
-    // إزالة علامة $
-    itemPrice = parseFloat(itemPrice.replace("$", ""));
+    let qty = Number(item.dataset.quantity);
 
-    total += itemPrice;
+    total += basePrice * qty;
   });
 
   ttlCart.innerHTML = `$ ${total.toFixed(2)}`;
 }
 
+// function Inc(btn) {
+//   let itemDiv = btn.closest(".item");
+//   let quantityVal = itemDiv.querySelector(".quantity-val");
+//   let itemTotal = itemDiv.querySelector(".item-total");
+//   let ttlCart = document.querySelector(".cart-total");
+//   let basePrice = Number(itemDiv.dataset.price);
+//   let currentQty = parseInt(quantityVal.innerHTML) + 1;
+
+//   quantityVal.innerHTML = currentQty;
+
+//   // total per item
+//   itemTotal.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
+
+//   // update total cost for cart
+
+//   updateCartTotal();
+
+//   console.log(ttlCart);
+// }
+
 function Inc(btn) {
   let itemDiv = btn.closest(".item");
+
   let quantityVal = itemDiv.querySelector(".quantity-val");
   let itemTotal = itemDiv.querySelector(".item-total");
-  let ttlCart = document.querySelector(".cart-total");
+
   let basePrice = Number(itemDiv.dataset.price);
-  let currentQty = parseInt(quantityVal.innerHTML) + 1;
 
-  quantityVal.innerHTML = currentQty;
+  let qty = Number(itemDiv.dataset.quantity);
 
-  // total per item
-  itemTotal.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
+  qty++;
 
-  // update total cost for cart
+  itemDiv.dataset.quantity = qty;
+
+  quantityVal.innerHTML = qty;
+
+  itemTotal.innerHTML = `$ ${(basePrice * qty).toFixed(2)}`;
 
   updateCartTotal();
-
-  console.log(ttlCart);
 }
+// function Dec(btn, id) {
+//   let itemDiv = btn.closest(".item");
+//   let quantityVal = itemDiv.querySelector(".quantity-val");
+//   let itemTotal = itemDiv.querySelector(".item-total");
+
+//   let counter = document.querySelectorAll(".badge");
+
+//   let basePrice = Number(itemDiv.dataset.price);
+
+//   let currentQty = Number(quantityVal.innerHTML);
+
+//   // حذف العنصر
+//   if (currentQty <= 1) {
+//     cartProduct = cartProduct.filter((idd) => idd !== id);
+
+//     itemDiv.classList.add("smootie");
+
+//     setTimeout(() => {
+//       itemDiv.remove();
+
+//       updateCartTotal();
+
+//       counter.forEach((e) => {
+//         e.innerHTML = cartProduct.length;
+//       });
+//     }, 400);
+
+//     return;
+//   }
+
+//   currentQty--;
+
+//   quantityVal.innerHTML = currentQty;
+
+//   itemTotal.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
+
+//   // تحديث إجمالي السلة
+//   updateCartTotal();
+// }
 
 function Dec(btn, id) {
   let itemDiv = btn.closest(".item");
-  let quantityVal = itemDiv.querySelector(".quantity-val");
-  let itemTotal = itemDiv.querySelector(".item-total");
 
-  let counter = document.querySelectorAll(".badge");
+  let quantityVal = itemDiv.querySelector(".quantity-val");
+
+  let itemTotal = itemDiv.querySelector(".item-total");
 
   let basePrice = Number(itemDiv.dataset.price);
 
-  let currentQty = Number(quantityVal.innerHTML);
+  let qty = Number(itemDiv.dataset.quantity);
 
-  // حذف العنصر
-  if (currentQty <= 1) {
+  if (qty <= 1) {
     cartProduct = cartProduct.filter((idd) => idd !== id);
 
-    itemDiv.classList.add("smootie");
+    itemDiv.remove();
 
-    setTimeout(() => {
-      itemDiv.remove();
+    updateCartTotal();
 
-      updateCartTotal();
-
-      counter.forEach((e) => {
-        e.innerHTML = cartProduct.length;
-      });
-    }, 400);
+    document.querySelectorAll(".badge").forEach((e) => {
+      e.innerHTML = cartProduct.length;
+    });
 
     return;
   }
 
-  currentQty--;
+  qty--;
 
-  quantityVal.innerHTML = currentQty;
+  itemDiv.dataset.quantity = qty;
 
-  itemTotal.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
+  quantityVal.innerHTML = qty;
 
-  // تحديث إجمالي السلة
+  itemTotal.innerHTML = `$ ${(basePrice * qty).toFixed(2)}`;
+
   updateCartTotal();
 }
 
