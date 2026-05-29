@@ -231,7 +231,7 @@ function Cart(item, itemSt) {
 
   // alert(item)
 
-  for (items of menuObj) {
+  for (let items of menuObj) {
     if (items.id === item) {
       let order = document.querySelector(".order");
       let itemDiv = document.createElement("div");
@@ -257,7 +257,6 @@ function Cart(item, itemSt) {
               
           
           `;
-      cartList.appendChild(itemDiv);
       // console.log(this);
       updateCartTotal();
 
@@ -271,6 +270,8 @@ function Cart(item, itemSt) {
       // for plus and minus operation
       itemDiv.dataset.price = items.cost; // السعر الأصلي ثابت
       itemDiv.dataset.id = items.id;
+
+      cartList.appendChild(itemDiv);
     }
   }
 }
@@ -301,7 +302,7 @@ function Inc(btn) {
   let quantityVal = itemDiv.querySelector(".quantity-val");
   let itemTotal = itemDiv.querySelector(".item-total");
   let ttlCart = document.querySelector(".cart-total");
-  let basePrice = parseFloat(itemDiv.dataset.price); // ✅ السعر الأصلي دايمًا
+  let basePrice = Number(itemDiv.dataset.price);
   let currentQty = parseInt(quantityVal.innerHTML) + 1;
 
   quantityVal.innerHTML = currentQty;
@@ -320,36 +321,40 @@ function Dec(btn, id) {
   let itemDiv = btn.closest(".item");
   let quantityVal = itemDiv.querySelector(".quantity-val");
   let itemTotal = itemDiv.querySelector(".item-total");
-  let ttlCart = document.querySelector(".cart-total");
 
-  let counter = document.querySelector(".badge");
+  let counter = document.querySelectorAll(".badge");
 
-  let basePrice = parseFloat(itemDiv.dataset.price); // ✅ السعر الأصلي دايمًا
-  let currentQty = parseInt(quantityVal.innerHTML);
+  let basePrice = Number(itemDiv.dataset.price);
 
-  // remove item
+  let currentQty = Number(quantityVal.innerHTML);
+
+  // حذف العنصر
   if (currentQty <= 1) {
-    cartProduct = cartProduct.filter((idd) => idd !== id); // ✅ شيله من الـ array
+    cartProduct = cartProduct.filter((idd) => idd !== id);
+
     itemDiv.classList.add("smootie");
 
     setTimeout(() => {
-      itemDiv.remove(); //  شيله من الـ DOM
+      itemDiv.remove();
 
-      // update total cost for cart
       updateCartTotal();
+
+      counter.forEach((e) => {
+        e.innerHTML = cartProduct.length;
+      });
     }, 400);
 
-    ttlCart.innerHTML = `$ ${(basePrice * currentQty * 0).toFixed(2)}`;
-
-    // update counter val of items
-    counter.innerHTML = `${cartProduct.length}`;
     return;
   }
 
   currentQty--;
+
   quantityVal.innerHTML = currentQty;
+
   itemTotal.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
-  ttlCart.innerHTML = `$ ${(basePrice * currentQty).toFixed(2)}`;
+
+  // تحديث إجمالي السلة
+  updateCartTotal();
 }
 
 function subscribe() {
